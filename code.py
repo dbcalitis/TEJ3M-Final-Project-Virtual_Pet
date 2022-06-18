@@ -70,6 +70,11 @@ source_index = 0
 # Prevents spamming while holding the buttons
 holding_buttons = False
 
+# Sets the current animation of the slime sprite
+current_animation = pet.slime_front_startframe
+endpoint_reached = False
+endpoint_x = 0
+
 time_count = 0
 
 while True:
@@ -79,14 +84,39 @@ while True:
         if time_count == pet.frame_duration:
             time_count = 0
             source_index += 1
+
+        if endpoint_reached: 
+            if current_animation == pet.slime_front_startframe:
+                current_animation, endpoint_x = pet.pace_around(sprite_group.x)
+            else:
+                current_animation = pet.idle()
+            endpoint_reached = False
         
-        # Sets the current animation of the slime sprite
-        current_animation = pet.slime_front_startframe
+        # If it did not reached its endpoint, it will move towards it.
+        # Slime going to the left
+        if not endpoint_reached and current_animation == pet.slime_left_startframe:
+            sprite_group.x -= pet.speed
+            if endpoint_x == sprite_group.x:
+                endpoint_reached = True
         
+        # Slime going to the right
+        if not endpoint_reached and current_animation == pet.slime_right_startframe:
+            sprite_group.x += pet.speed
+            if endpoint_x == sprite_group.x:
+                endpoint_reached = True
+        
+
         # Sets the animation frame
         sprite[0] = current_animation + source_index % 4
+        
+        if source_index == 4:
+            endpoint_reached = True
+
         source_index = source_index % 4
 
+        """print("Endpoint reached: {0} \n Current animation: {1}".format(
+            endpoint_reached, current_animation)
+            )"""
         # To keep track of time for the animation
         time_count += 1
     else:
@@ -104,3 +134,4 @@ while True:
         sprite[0] = source_index % 4
     
     time.sleep(0.1)
+   
