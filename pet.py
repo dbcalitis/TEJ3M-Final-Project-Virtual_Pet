@@ -29,13 +29,19 @@ def pace_around(positionX):
 
     # Pacing towards left
     if direction == 0:
-        distance = positionX - margin
-        end_point = random.randint(0 + margin, positionX - margin)
+        try:
+            distance = positionX - margin
+            end_point = random.randint(0 + margin, distance)
+        except:
+            end_point = positionX
         current_animation = slime_left_startframe
     # Pacing towards right
     elif direction == 1: 
-        distance = screen_dimension - margin - positionX
-        end_point = random.randint(positionX, distance)
+        try:
+            distance = screen_dimension - margin - positionX
+            end_point = random.randint(positionX, distance)
+        except:
+            end_point = positionX
         current_animation = slime_right_startframe
 
     return current_animation, end_point
