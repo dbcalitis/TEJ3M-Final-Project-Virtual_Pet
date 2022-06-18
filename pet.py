@@ -1,7 +1,7 @@
 import random
 
 screen_dimension = 240 # 240 pixels each side
-margin = 20 # Serves as a border around the pet
+margin = 10 # Serves as a border around the pet
 
 hatched = False
 speed = 1
@@ -18,6 +18,7 @@ slime_left_startframe = 12
 def pace_around(positionX):
     # Initializing variables
     direction = 0 # 0 = Left, 1 = Right
+    distance = 0
 
     if (positionX + frame_dimension) >= screen_dimension + margin:
         direction = 0 # Left
@@ -28,11 +29,13 @@ def pace_around(positionX):
 
     # Pacing towards left
     if direction == 0:
-        end_point = random.randint(0 + margin, positionX)
+        distance = positionX - margin
+        end_point = random.randint(0 + margin, positionX - margin)
         current_animation = slime_left_startframe
     # Pacing towards right
     elif direction == 1: 
-        end_point = random.randint(positionX, screen_dimension - margin)
+        distance = screen_dimension - margin - positionX
+        end_point = random.randint(positionX, distance)
         current_animation = slime_right_startframe
 
     return current_animation, end_point
