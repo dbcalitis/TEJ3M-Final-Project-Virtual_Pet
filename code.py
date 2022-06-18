@@ -93,17 +93,18 @@ while True:
             endpoint_reached = False
         
         # If it did not reached its endpoint, it will move towards it.
-        # Slime going to the left
-        if not endpoint_reached and current_animation == pet.slime_left_startframe:
-            sprite_group.x -= pet.speed
+        if not endpoint_reached:
+            # checks if the pet has reached the endpoint
             if endpoint_x == sprite_group.x:
                 endpoint_reached = True
-        
-        # Slime going to the right
-        if not endpoint_reached and current_animation == pet.slime_right_startframe:
-            sprite_group.x += pet.speed
-            if endpoint_x == sprite_group.x:
-                endpoint_reached = True
+
+            # Pet going to the left
+            if current_animation == pet.slime_left_startframe:
+                sprite_group.x -= pet.speed
+
+            # Pet going to the right
+            elif current_animation == pet.slime_right_startframe:
+                sprite_group.x += pet.speed
         
 
         # Sets the animation frame
@@ -111,12 +112,10 @@ while True:
         
         if source_index == 4:
             endpoint_reached = True
-
+        
+        # Resets the frame to zero once it reaches the 4th frame
         source_index = source_index % 4
 
-        """print("Endpoint reached: {0} \n Current animation: {1}".format(
-            endpoint_reached, current_animation)
-            )"""
         # To keep track of time for the animation
         time_count += 1
     else:
@@ -134,4 +133,3 @@ while True:
         sprite[0] = source_index % 4
     
     time.sleep(0.1)
-   
