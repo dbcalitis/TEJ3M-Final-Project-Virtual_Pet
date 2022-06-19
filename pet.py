@@ -15,6 +15,12 @@ slime_front_startframe = 4
 slime_right_startframe = 8
 slime_left_startframe = 12
 
+# Status
+hunger = 50
+happiness = 50
+hygiene = 100
+sleep = 100
+
 def pace_around(positionX):
     # Initializing variables
     direction = 0 # 0 = Left, 1 = Right
@@ -49,3 +55,12 @@ def pace_around(positionX):
 def idle():
     # Returns the animation start frame and 
     return slime_front_startframe
+
+def decrease_stats(time_count, hunger, happiness, hygiene, sleep):
+    if time_count == 300:
+        hunger -= random.randint(0, 2)
+        happiness -= random.randint(0, 2)
+        hygiene -= random.randint(0, 3)
+        sleep -= random.randint(0, 1)
+        time_count = 0
+    return hunger, happiness, hygiene, sleep, time_count
