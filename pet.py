@@ -7,7 +7,7 @@ hatched = False
 speed = 1
 
 # Animation Frames
-frame_duration = 10 # deciseconds
+frame_duration = 4 # deciseconds
 frame_dimension = 16 # 16 pixels each side
 
 egg_startframe = 0
