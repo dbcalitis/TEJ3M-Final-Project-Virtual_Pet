@@ -22,8 +22,38 @@ background = displayio.TileGrid(
     tile_height=16,
 )
 
-# Create the background TileGrid
+# Create the image statistics TileGrid
 image_stats = displayio.TileGrid(
+    sprite_sheet,
+    pixel_shader=palette,
+    width=10,
+    height=8,
+    tile_width=16,
+    tile_height=16,
+)
+
+# Create the buttons TileGrid
+buttons = displayio.TileGrid(
+    sprite_sheet,
+    pixel_shader=palette,
+    width=10,
+    height=8,
+    tile_width=16,
+    tile_height=16,
+)
+
+# Create the buttons TileGrid
+selection = displayio.TileGrid(
+    sprite_sheet,
+    pixel_shader=palette,
+    width=10,
+    height=8,
+    tile_width=16,
+    tile_height=16,
+)
+
+# Create the buttons TileGrid
+effects = displayio.TileGrid(
     sprite_sheet,
     pixel_shader=palette,
     width=10,
@@ -52,16 +82,35 @@ group = displayio.Group()
 group.append(background_group)
 group.append(text_area)
 
-# Hunger and Happiness Display
+# Pet Statistics Display
 image_stats_group = displayio.Group(scale=2)
 image_stats_group.append(image_stats)
 for x in range(0, 10):
     for y in range(0, 8):
-        image_stats[x, y] = 21 # tile number
+        image_stats[x, y] = 31 # tile number
 image_stats[0, 1] = 17 # tile number
 image_stats[2, 1] = 18 # tile number
 image_stats[4, 1] = 19 # tile number
 image_stats[6, 1] = 20 # tile number
+
+# Buttons Display
+buttons_group = displayio.Group(scale=2)
+buttons_group.append(buttons)
+for x in range(0, 10):
+    for y in range(0, 8):
+        buttons[x, y] = 31 # tile number
+buttons[0, 6] = 21 # tile number
+buttons[2, 6] = 22 # tile number
+buttons[4, 6] = 23 # tile number
+buttons[6, 6] = 24 # tile number
+
+# Buttons Display
+selection_group = displayio.Group(scale=2)
+selection_group.append(selection)
+for x in range(0, 10):
+    for y in range(0, 8):
+        selection[x, y] = 31 # tile number
+selection[0, 6] = 25 # tile number
 
 hunger_area = label.Label(font, text=str(pet.hunger) + "%", color=color, scale=1)
 hunger_area.x = 38
@@ -78,3 +127,10 @@ hygiene_area.y = 48
 sleep_area = label.Label(font, text=str(pet.sleep) + "%", color=color, scale=1)
 sleep_area.x = 210
 sleep_area.y = 48
+
+# Effects display
+effects_group = displayio.Group(scale=5)
+effects_group.append(effects)
+for x in range(0, 10):
+    for y in range(0, 8):
+        effects[x, y] = 31 # tile number

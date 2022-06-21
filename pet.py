@@ -18,8 +18,8 @@ slime_left_startframe = 12
 # Status
 hunger = 50
 happiness = 50
-hygiene = 100
-sleep = 100
+hygiene = 50
+sleep = 50
 
 def pace_around(positionX):
     # Initializing variables
@@ -64,3 +64,27 @@ def decrease_stats(time_count, hunger, happiness, hygiene, sleep):
         sleep -= random.randint(0, 1)
         time_count = 0
     return hunger, happiness, hygiene, sleep, time_count
+
+def feed(hunger):
+    hunger += 10
+    if hunger > 100:
+        hunger = 100
+    return hunger
+
+def pet(happiness):
+    happiness += 10
+    if happiness > 100:
+        happiness = 100
+    return happiness
+
+def clean(hygiene):
+    hygiene += 10
+    if hygiene > 100:
+        hygiene = 100
+    return hygiene
+
+def rest(sleep):
+    sleep += 10
+    if sleep > 100:
+        sleep = 100
+    return sleep

@@ -52,6 +52,7 @@ endpoint_x = 0
 
 time_count = 0
 time_count_stats = 0
+hatched_triggered = False
 
 display.group.append(sprite_group)
 
@@ -86,6 +87,58 @@ while True:
             elif current_animation == pet.slime_right_startframe:
                 sprite_group.x += pet.speed
         
+        if clue.button_a:
+            if not holding_buttons:
+                x = display.selection_group.x - 64 # pixels
+                if x < 0:
+                    x = 256 # pixels
+                display.selection_group.x = x
+                holding_buttons = True
+            else:
+                holding_buttons = False
+
+        if clue.button_b:
+            if not holding_buttons:
+                x = display.selection_group.x + 64 # pixels
+                if x > 256:
+                    x = 0 # pixels
+                display.selection_group.x = x
+                holding_buttons = True
+            else: 
+                holding_buttons = False
+        
+        # Increasing Stats
+        if clue.touch_0:
+            tile_number = 28
+            if display.selection_group.x == 0:
+                pet.hunger = pet.feed(pet.hunger)
+                tile_number = 26
+            if display.selection_group.x == 64:
+                pet.hygiene = pet.clean(pet.hygiene)
+                tile_number = 27
+            if display.selection_group.x == 128:
+                pet.happiness = pet.pet(pet.happiness)
+                tile_number= 26
+            if display.selection_group.x >= 256:
+                pet.sleep = pet.rest(pet.sleep)
+                print(pet.sleep)
+            display.effects[0, 0] = tile_number
+            try:
+                display.group.append(display.effects_group)
+            except:
+                pass
+            finally:
+                display.effects_group.x = sprite_group.x
+                display.effects_group.y = sprite_group.y
+                screen.show(display.group)
+                clue.play_tone(1000, 0.05)
+        else:
+            try:
+                display.group.remove(display.effects_group)
+            except:
+                pass
+            finally:
+                screen.show(display.group) 
 
         # Sets the animation frame
         sprite[0] = current_animation + source_index % 4
@@ -106,9 +159,15 @@ while True:
         display.happiness_area.text = str(pet.happiness) + "%"
         display.hygiene_area.text = str(pet.hygiene) + "%"
         display.sleep_area.text = str(pet.sleep) + "%"
+        
+        # Plays a tone when it hatches 
+        if not hatched_triggered:
+            hatched_triggered = True
+            for sound in range(500, 2001, 500):
+                clue.play_tone(sound, 0.05)
     else:
         # Hatching Process (start of the game)
-        if clue.button_a == True or clue.button_b == True:
+        if clue.gyro[0] >= 4 or clue.gyro[2] >= 4:
             if not holding_buttons:
                 source_index += 1
                 holding_buttons = True
@@ -123,7 +182,11 @@ while True:
             display.group.append(display.hygiene_area)
             display.group.append(display.sleep_area)
             display.group.append(display.image_stats_group)
+            display.group.append(display.buttons_group)
+            display.group.append(display.selection_group)
             screen.show(display.group)
+            holding_buttons = False
+            
         
         sprite[0] = source_index % 4
     
