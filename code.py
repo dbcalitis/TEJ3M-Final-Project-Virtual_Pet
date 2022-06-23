@@ -88,24 +88,16 @@ while True:
                 sprite_group.x += pet.speed
         
         if clue.button_a:
-            if not holding_buttons:
-                x = display.selection_group.x - 64 # pixels
-                if x < 0:
-                    x = 256 # pixels
-                display.selection_group.x = x
-                holding_buttons = True
-            else:
-                holding_buttons = False
+            x = display.selection_group.x - 64 # pixels
+            if x < 0:
+                x = 256 # pixels
+            display.selection_group.x = x           
 
         if clue.button_b:
-            if not holding_buttons:
-                x = display.selection_group.x + 64 # pixels
-                if x > 256:
-                    x = 0 # pixels
-                display.selection_group.x = x
-                holding_buttons = True
-            else: 
-                holding_buttons = False
+            x = display.selection_group.x + 64 # pixels
+            if x > 256:
+                x = 0 # pixels
+            display.selection_group.x = x            
         
         # Increasing Stats
         if clue.touch_0:
@@ -165,14 +157,15 @@ while True:
             hatched_triggered = True
             for sound in range(500, 2001, 500):
                 clue.play_tone(sound, 0.05)
+        
+        display.instructions.x -= 10
+
+        if display.instructions.x == -400:
+            display.instructions.x = 240
     else:
         # Hatching Process (start of the game)
         if clue.gyro[0] >= 4 or clue.gyro[2] >= 4:
-            if not holding_buttons:
-                source_index += 1
-                holding_buttons = True
-        else:
-            holding_buttons = False 
+            source_index += 1
 
         if source_index == 4:
             # Hatches the pet and displays its stats
@@ -184,6 +177,7 @@ while True:
             display.group.append(display.image_stats_group)
             display.group.append(display.buttons_group)
             display.group.append(display.selection_group)
+            display.instructions.text = "Hold buttons A or B to change options and press Touch 0 to care for pet."
             screen.show(display.group)
             holding_buttons = False
             

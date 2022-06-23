@@ -78,9 +78,14 @@ text_area = label.Label(font, text=text, color=color, scale=2)
 text_area.x = 55
 text_area.y = 10
 
+instructions = label.Label(font, text="Shake vigorously to hatch", color=color, scale=1)
+instructions.x = 50
+instructions.y = 70
+
 group = displayio.Group()
 group.append(background_group)
 group.append(text_area)
+group.append(instructions)
 
 # Pet Statistics Display
 image_stats_group = displayio.Group(scale=2)
