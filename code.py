@@ -90,12 +90,12 @@ while True:
         if clue.button_a:
             x = display.selection_group.x - 64 # pixels
             if x < 0:
-                x = 256 # pixels
+                x = 192 # pixels
             display.selection_group.x = x           
 
         if clue.button_b:
             x = display.selection_group.x + 64 # pixels
-            if x > 256:
+            if x > 192:
                 x = 0 # pixels
             display.selection_group.x = x            
         
@@ -111,7 +111,7 @@ while True:
             if display.selection_group.x == 128:
                 pet.happiness = pet.pet(pet.happiness)
                 tile_number= 26
-            if display.selection_group.x >= 256:
+            if display.selection_group.x >= 192:
                 pet.sleep = pet.rest(pet.sleep)
                 print(pet.sleep)
             display.effects[0, 0] = tile_number
